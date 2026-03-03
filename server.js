@@ -1,6 +1,6 @@
 import express from 'express';
-import produtoRoutes from './routes/produtos.routes.js';
-import categoriaRoutes from './routes/categoria.routes.js';
+import produtoRoutes from './src/routes/produtos.routes.js';
+import categoriaRoutes from './src/routes/categoria.routes.js';
 import "dotenv/config"
 
 
