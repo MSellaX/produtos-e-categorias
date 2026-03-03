@@ -48,7 +48,7 @@ const produtoModel = {
     deletarProduto: async (idProduto) => {
         try {
             const sql = "DELETE FROM produto WHERE idProduto = ?";
-            const [result] = await pool.execute(sql, [idProduto]);
+            const [result] = await pool.deletarProduto(sql, [idProduto]);
             return result;
 
         } catch (error) {
