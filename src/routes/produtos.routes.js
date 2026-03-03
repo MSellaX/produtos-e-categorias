@@ -4,6 +4,8 @@ const produtoRoutes = Router();
 
 produtoRoutes.post('/produtos', produtoController.criarProduto);
 produtoRoutes.get("/produtos", produtoController.listarProdutos)
-produtoRoutes.delete("/produtos/:idProduto", produtoController.deletarProduto);
+produtoRoutes.put("/produtos/:idProduto", produtoController.atualizarProduto);
+produtoRoutes.delete("/produtos/:idCategoria", produtoController.deletarProduto);
+
 
 export default produtoRoutes

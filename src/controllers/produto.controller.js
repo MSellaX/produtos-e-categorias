@@ -3,13 +3,13 @@ const produtoController = {
     criarProduto: async (req, res) => {
         try {
     console.log (req.body)
-            const { idCategoria, nomeProduto, valorProduto, vinculoImagem, dataCad } = req.body;
+            const { idCategoria, nomeProduto, valorProduto, vinculoImagem} = req.body;
 
-            if (idCategoria == undefined || nomeProduto == undefined || valorProduto == undefined || isNaN(valorProduto) || vinculoImagem == undefined || dataCad == undefined) {
+            if (idCategoria == undefined || nomeProduto == undefined || valorProduto == undefined || isNaN(valorProduto) || vinculoImagem == undefined) {
                 return res.status(400).json({ erro: 'campos OBRIGATÓRIOS não preenchidos' })
             }
 
-            await produtoModel.insert( idCategoria, nomeProduto, valorProduto, vinculoImagem, dataCad);
+            await produtoModel.insert( idCategoria, nomeProduto, valorProduto, vinculoImagem);
 
             res.status(201).json({ message: 'produto cadastrado com sucesso!' });
 
@@ -50,6 +50,31 @@ const produto = await produtoModel.buscarUm(idProduto);
         } catch (error) {
             console.error('Erro ao deletar produto', error);
             res.status(500).json({ erro: "Erro no servidor ao deletar o produto" });
+        }
+    },
+     atualizarProduto: async (req, res) => {
+        try {
+            const { idProduto } = req.params;
+            const { nomeProduto, valorProduto, dataCad } = req.body;
+
+            const produto = await produtoModel.buscarUm(idProduto);
+
+            if (idProduto.length != 36) {
+                return res.status(404).json({ erro: 'Produto não encontrado!' });
+            }
+
+            const produtoAtual = produto[0];
+
+            const nomeAtualizado = nomeProduto || produtoAtual.nomeProduto;
+            const precoAtualizado = valorProduto || produtoAtual.valorProduto;
+            const dataCadAtualizada = dataCad || produtoAtual.dataCad;
+
+            await produtoModel.atualizarProduto(idProduto, nomeAtualizado, precoAtualizado, dataCadAtualizada);
+
+            res.status(200).json({ message: 'Produto atualizado com sucesso!' })
+        } catch (error) {
+            console.error('Erro ao atualizar o produto:', error);
+            res.status(500).json({ erro: 'Erro no servidor ao atualizar o produto' });
         }
     }
 }
